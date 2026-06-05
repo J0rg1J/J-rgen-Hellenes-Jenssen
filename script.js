@@ -127,6 +127,11 @@ function tomHandlekurv() {
 
 // denne funksjonen sender bestillingen til orders-tabellen i Supabase
 async function bestill() {
+  if (!supabaseClient) {
+    visMelding("Kunne ikke koble til databasen.");
+    return;
+  }
+
   if (handlekurv.length === 0) {
     visMelding("Du må legge til minst ett produkt før du kan bestille.");
     return;

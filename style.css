@@ -108,3 +108,8 @@ footer {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+
+button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
