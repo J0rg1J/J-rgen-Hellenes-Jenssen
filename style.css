@@ -73,6 +73,12 @@ section {
   background-color: #fff;
 }
 
+/* Produkt-ikoner i kortene */
+.produkt-ikon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
 /* Knapper på siden */
 button {
   padding: 10px 15px;

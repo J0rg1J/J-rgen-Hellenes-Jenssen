@@ -34,6 +34,7 @@ function visProdukter(produkter) {
   produkter.forEach(function (produkt) {
     produktListe.innerHTML += `
       <article class="produkt-kort">
+        <p class="produkt-ikon">${produkt.ikon}</p>
         <h3>${produkt.navn}</h3>
         <p>${produkt.beskrivelse}</p>
         <p>${produkt.pris} kr</p>
