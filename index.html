@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Møbel Norge</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Headeren har navnet på nettsiden og navigasjonsmenyen. valgte og bruke en gammel header, og heller gjøre den om til en ny. -->
+    <header>
+      <h1>Møbler Norge</h1>
+
+      <!-- Navigasjonsmenyen gjør det mulig å hoppe til ulike deler av nettsiden -->
+      <nav>
+        <a href="#">Hjem</a>
+        <a href="#produkter">Produkter</a>
+        <a href="#handlekurv">Handlekurv</a>
+        <a href="#om">Om prosjektet</a>
+      </nav>
+    </header>
+
+    <!-- Hero-seksjonen er den første delen brukeren ser, og forklarer kort hva nettsiden handler om -->
+    <section class="hero">
+      <!-- Tekstblokken presenterer nettbutikken og har en knapp som sender brukeren videre til produktene -->
+      <div>
+        <h2>Finn møbler som passer hjemmet ditt</h2>
+        <p>
+          Møbler Norge er en enkel nettbutikk for moderne og praktiske møbler.
+          Målet er å gjøre det lett for brukeren å finne riktige produkter
+          raskt.
+        </p>
+        <button id="scrollButton" class="cta-button">Se produkter</button>
+      </div>
+    </section>
+
+    <!-- Produkter-seksjonen viser en liste over tilgjengelige møbler, og lar brukeren legge dem i handlekurven -->
+    <section id="produkter">
+      <h2>Produkter</h2>
+
+      <div id="produkt-liste"></div>
+    </section>
+
+    <!-- Handlekurv-seksjonen viser hvilke produkter brukeren har lagt i kurven, og lar dem bestille eller tømme kurven -->
+    <section id="handlekurv">
+      <h2>Handlekurv</h2>
+
+      <div id="handlekurv-liste"></div>
+
+      <p>Total: <span id="total-pris">0</span> kr</p>
+
+      <button id="tom-handlekurv">Tøm handlekurv</button>
+      <button id="bestill-knapp">Bestill</button>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Møbler Norge</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
