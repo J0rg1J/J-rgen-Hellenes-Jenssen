@@ -12,6 +12,9 @@ const supabaseKey = "sb_publishable_8e_elINpvMIHGBLTdzzd0g_mzRXXS0K";
 
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+let produkter = [];
+let handlekurv = [];
+
 // denne funksjonen henter produktene fra databasen og putter dem i konsollen slik at visProdukter-funksjonen kan bruke dem til å vise dem på nettsiden
 async function hentProdukter() {
   const { data, error } = await supabaseClient.from("produkter").select("*");
@@ -24,7 +27,8 @@ async function hentProdukter() {
 
   console.log("Produkter hentet fra Supabase:", data);
 
-  visProdukter(data);
+  produkter = data;
+  visProdukter(produkter);
 }
 
 // dette får "produkter" delen av html-en til å vise produktene som er i databasen
@@ -38,10 +42,38 @@ function visProdukter(produkter) {
         <h3>${produkt.navn}</h3>
         <p>${produkt.beskrivelse}</p>
         <p>${produkt.pris} kr</p>
-        <button>Legg i handlekurv</button>
+       <button onclick="leggTilIHandlekurv(${produkt.id})">Legg i handlekurv</button>
       </article>
     `;
   });
+}
+
+// Lager er tom handlekurv som skal fylles når brukeren legger til produkter
+function leggTilIHandlekurv(produktId) {
+  const produkt = produkter.find(function (produkt) {
+    return produkt.id === produktId;
+  });
+
+  handlekurv.push(produkt);
+
+  visHandlekurv();
+}
+
+// denne funksjonen viser produktene i handlekurven og regner ut totalprisen
+function visHandlekurv() {
+  handlekurvListe.innerHTML = "";
+
+  let total = 0;
+
+  handlekurv.forEach(function (produkt) {
+    handlekurvListe.innerHTML += `
+      <p>${produkt.navn} - ${produkt.pris} kr</p>
+    `;
+
+    total += produkt.pris;
+  });
+  // denne linjen oppdaterer totalprisen i html-en
+  totalPrisElement.textContent = total;
 }
 
 hentProdukter();
