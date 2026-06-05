@@ -76,4 +76,24 @@ function visHandlekurv() {
   totalPrisElement.textContent = total;
 }
 
+function tomHandlekurv() {
+  handlekurv.length = 0;
+  visHandlekurv();
+  meldingElement.textContent = "Handlekurven er tømt.";
+}
+
+function bestill() {
+  if (handlekurv.length === 0) {
+    meldingElement.textContent = "Du kan ikke bestille med tom handlekurv.";
+    return;
+  }
+
+  handlekurv.length = 0;
+  visHandlekurv();
+  meldingElement.textContent = "Bestillingen er fullført.";
+}
+
+tomHandlekurvKnapp.addEventListener("click", tomHandlekurv);
+bestillKnapp.addEventListener("click", bestill);
+
 hentProdukter();
