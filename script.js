@@ -50,20 +50,6 @@ async function hentProdukter() {
   visProdukter();
 }
 
-// denne funksjonen henter profiler fra profiles-tabellen i Supabase
-// denne funksjonen henter profiler fra profiles-tabellen
-async function hentProfiler() {
-  const { data, error } = await supabaseClient.from("profiles").select("*");
-
-  if (error) {
-    console.error(error);
-    visMelding("Kunne ikke hente profiler.");
-    return;
-  }
-
-  console.log(data);
-}
-
 // dette får "produkter" delen av html-en til å vise produktene som er i databasen
 function visProdukter() {
   produktListe.innerHTML = "";
@@ -136,10 +122,47 @@ function tomHandlekurv() {
   visMelding("Handlekurven er tømt.");
 }
 
-// denne funksjonen fullfører en enkel bestilling
-function bestill() {
+// denne funksjonen sender bestillingen til orders-tabellen i Supabase
+async function bestill() {
   if (handlekurv.length === 0) {
     visMelding("Du kan ikke bestille med tom handlekurv.");
+    return;
+  }
+
+  const navn = prompt("Skriv inn navn:");
+  const epost = prompt("Skriv inn e-post:");
+  const adresse = prompt("Skriv inn adresse:");
+
+  if (!navn || !epost || !adresse) {
+    visMelding("Du må fylle inn navn, e-post og adresse.");
+    return;
+  }
+
+  const total = handlekurv.reduce(function (sum, produkt) {
+    return sum + Number(produkt.pris);
+  }, 0);
+
+  const orderItems = handlekurv.map(function (produkt) {
+    return {
+      id: produkt.id,
+      navn: produkt.navn,
+      pris: produkt.pris,
+    };
+  });
+
+  const { error } = await supabaseClient.from("orders").insert([
+    {
+      customer_name: navn,
+      customer_email: epost,
+      customer_address: adresse,
+      total_price: total,
+      items: orderItems,
+    },
+  ]);
+
+  if (error) {
+    console.error(error);
+    visMelding("Kunne ikke fullføre bestillingen.");
     return;
   }
 
