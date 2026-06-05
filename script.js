@@ -6,6 +6,9 @@ const tomHandlekurvKnapp = document.querySelector("#tom-handlekurv");
 const bestillKnapp = document.querySelector("#bestill-knapp");
 const meldingElement = document.querySelector("#melding");
 const scrollButton = document.querySelector("#scrollButton");
+const customerNameInput = document.querySelector("#customerName");
+const customerEmailInput = document.querySelector("#customerEmail");
+const customerAddressInput = document.querySelector("#customerAddress");
 
 // Lager en forbindelse til Supabase ved å bruke URL og nøkkel
 const supabaseUrl = "https://vkuplcldclmcfcbtdlgf.supabase.co";
@@ -125,16 +128,21 @@ function tomHandlekurv() {
 // denne funksjonen sender bestillingen til orders-tabellen i Supabase
 async function bestill() {
   if (handlekurv.length === 0) {
-    visMelding("Du kan ikke bestille med tom handlekurv.");
+    visMelding("Du må legge til minst ett produkt før du kan bestille.");
     return;
   }
 
-  const navn = prompt("Skriv inn navn:");
-  const epost = prompt("Skriv inn e-post:");
-  const adresse = prompt("Skriv inn adresse:");
+  const navn = customerNameInput.value.trim();
+  const epost = customerEmailInput.value.trim();
+  const adresse = customerAddressInput.value.trim();
 
   if (!navn || !epost || !adresse) {
     visMelding("Du må fylle inn navn, e-post og adresse.");
+    return;
+  }
+
+  if (!epost.includes("@")) {
+    visMelding("Du må skrive inn en gyldig e-postadresse.");
     return;
   }
 
@@ -150,6 +158,9 @@ async function bestill() {
     };
   });
 
+  bestillKnapp.disabled = true;
+  visMelding("Lagrer bestilling...");
+
   const { error } = await supabaseClient.from("orders").insert([
     {
       customer_name: navn,
@@ -160,15 +171,22 @@ async function bestill() {
     },
   ]);
 
+  bestillKnapp.disabled = false;
+
   if (error) {
-    console.error(error);
-    visMelding("Kunne ikke fullføre bestillingen.");
+    console.error("Feil ved lagring av ordre:", error);
+    visMelding("Bestillingen kunne ikke lagres.");
     return;
   }
 
   handlekurv = [];
   visHandlekurv();
-  visMelding("Bestillingen er fullført.");
+
+  customerNameInput.value = "";
+  customerEmailInput.value = "";
+  customerAddressInput.value = "";
+
+  visMelding(`Takk for bestillingen, ${navn}. Ordren er lagret.`);
 }
 
 // denne delen sjekker om brukeren trykker på en legg i handlekurv-knapp

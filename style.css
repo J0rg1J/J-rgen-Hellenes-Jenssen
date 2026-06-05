@@ -94,3 +94,17 @@ footer {
   background-color: #222;
   color: white;
 }
+
+/* Kunde-informasjon seksjon i handlekurven */
+.kunde-info {
+  display: grid;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+/* Input-feltene for kunde-informasjon */
+.kunde-info input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
